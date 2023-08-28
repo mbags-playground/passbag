@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:passbags/src/utils/password_generator.dart";
 import "package:flutter/services.dart";
+import "package:passbags/src/widgets/styled_text_input.dart";
 
 class PasswordGeneratorScreen extends StatefulWidget {
   @override
@@ -8,7 +9,8 @@ class PasswordGeneratorScreen extends StatefulWidget {
       _PasswordGeneratorScreenState();
 }
 
-class _PasswordGeneratorScreenState extends State<PasswordGeneratorScreen> {
+class _PasswordGeneratorScreenState extends State<PasswordGeneratorScreen>
+    with WidgetsBindingObserver {
   final TextEditingController secretController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   String encryptedPassword = '';
@@ -45,47 +47,55 @@ class _PasswordGeneratorScreenState extends State<PasswordGeneratorScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
+            StyledTextInput(
               controller: secretController,
-              decoration: InputDecoration(
-                labelText: 'Secret',
-                suffixIcon: GestureDetector(
-                  onTap: _togglePasswordVisibility,
-                  child: Icon(
-                    _obscureText ? Icons.visibility : Icons.visibility_off,
-                  ),
+              text: "Text",
+              suffixIcon: GestureDetector(
+                onTap: _togglePasswordVisibility,
+                child: Icon(
+                  _obscureText ? Icons.visibility : Icons.visibility_off,
                 ),
               ),
-              obscureText: _obscureText,
+              isPasswordField: _obscureText,
             ),
-            TextField(
+            Divider(
+              color: Colors.transparent,
+            ),
+            StyledTextInput(
               controller: passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-              ),
+              text: 'Password',
             ),
-            SizedBox(height: 16.0),
+            Divider(
+              color: Colors.transparent,
+            ),
             ElevatedButton(
               onPressed: generateEncryptedPassword,
               child: const Text("Generate strong password"),
             ),
-            ElevatedButton(
-              onPressed: () {
-                _copyToClipboard(
-                    encryptedPassword); // Call the copy function here
-              },
-              child: const Text("Copy to Clipboard"),
+            Divider(
+              color: Colors.transparent,
             ),
-            const SizedBox(height: 16.0),
-            const Text(
-              'You strong password is Password:',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 16),
-            Text(
-              encryptedPassword,
-              style: TextStyle(fontSize: 16),
-            ),
+            if (encryptedPassword != "")
+              Column(
+                children: [
+                  const Text(
+                    'You strong password is Password:',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    encryptedPassword,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _copyToClipboard(
+                          encryptedPassword); // Call the copy function here
+                    },
+                    child: const Text("Copy to Clipboard"),
+                  ),
+                ],
+              ),
           ],
         ),
       ),

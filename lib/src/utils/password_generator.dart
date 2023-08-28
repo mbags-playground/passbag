@@ -8,7 +8,7 @@ String generatePassword(String secret, String password) {
 }
 
 String cryptoHmacSha256(String secret, String data) {
-  final hmac = Hmac(sha256, utf8.encode(secret));
+  final hmac = Hmac(sha512256, utf8.encode(secret));
   final digest = hmac.convert(utf8.encode(data));
   return digest.toString();
 }
@@ -17,6 +17,10 @@ String hexToBase64(String hexString) {
   final bytes = hexToBytes(hexString);
   final base64String = base64.encode(bytes);
   return base64String;
+}
+
+String OneWayFormatter() {
+  return "";
 }
 
 List<int> hexToBytes(String hexString) {
