@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:passbags/src/features/onboarding/onboarding_screen.dart';
-import 'package:passbags/src/features/password/password_screen.dart';
+import 'package:passbag/src/features/onboarding/onboarding_screen.dart';
+import 'package:passbag/src/features/password/password_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyApp extends StatelessWidget {
@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Passbags',
+      title: 'Passbag',
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         AppLocalizations.delegate, // Add this line

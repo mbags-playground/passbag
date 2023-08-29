@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:passbags/src/features/password/password_screen.dart';
+import 'package:passbag/src/features/password/password_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
