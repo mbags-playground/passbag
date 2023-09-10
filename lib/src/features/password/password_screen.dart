@@ -27,11 +27,18 @@ class _PasswordGeneratorScreenState extends State<PasswordGeneratorScreen>
     });
   }
 
-  bool _obscureText = true;
+  bool _hideSecret = true;
+  bool _hidePassword = true;
 
   void _togglePasswordVisibility() {
     setState(() {
-      _obscureText = !_obscureText;
+      _hidePassword = !_hidePassword;
+    });
+  }
+
+  void _toggleSecretVisibility() {
+    setState(() {
+      _hideSecret = !_hideSecret;
     });
   }
 
@@ -49,30 +56,37 @@ class _PasswordGeneratorScreenState extends State<PasswordGeneratorScreen>
           children: [
             StyledTextInput(
               controller: secretController,
-              text: "Text",
+              text: "Secret",
               suffixIcon: GestureDetector(
-                onTap: _togglePasswordVisibility,
+                onTap: _toggleSecretVisibility,
                 child: Icon(
-                  _obscureText ? Icons.visibility : Icons.visibility_off,
+                  _hideSecret ? Icons.visibility : Icons.visibility_off,
                 ),
               ),
-              isPasswordField: _obscureText,
+              isPasswordField: _hideSecret,
             ),
-            Divider(
+            const Divider(
               color: Colors.transparent,
             ),
             StyledTextInput(
               controller: passwordController,
               text: 'Password',
+              suffixIcon: GestureDetector(
+                onTap: _togglePasswordVisibility,
+                child: Icon(
+                  _hidePassword ? Icons.visibility : Icons.visibility_off,
+                ),
+              ),
+              isPasswordField: _hidePassword,
             ),
-            Divider(
+            const Divider(
               color: Colors.transparent,
             ),
             ElevatedButton(
               onPressed: generateEncryptedPassword,
               child: const Text("Generate strong password"),
             ),
-            Divider(
+            const Divider(
               color: Colors.transparent,
             ),
             if (encryptedPassword != "")
@@ -82,7 +96,7 @@ class _PasswordGeneratorScreenState extends State<PasswordGeneratorScreen>
                     'You strong password is Password:',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
                     encryptedPassword,
                     style: TextStyle(fontSize: 16),
