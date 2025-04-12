@@ -1,11 +1,13 @@
 # passbag
 
 [Passbag](./lib/assets/images/logo.png)
-Make your weak password into super strong password.
+Transform your weak passwords into super strong password.
 
 ## About
 
-This is app help you to generate a strong password. It is implemented using flutter, so it can run in any platform, wether on mac, ios, android, or in browser.
+This is app help you to generate a strong password. It combines two password to generate a strong password.
+
+It is implemented using flutter, so it can run in any platform, wether on mac, ios, android, or in browser.
 
 ## Algorithm
 
