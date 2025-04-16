@@ -1,0 +1,53 @@
+name: Build, Release and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install -g vercel
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+
+      - name: Build app
+        run: flutter build web
+
+      - name: Get version from pubspec.yaml
+        id: version
+        run: |
+          VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+          echo "::set-output name=version::$VERSION"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: Release v${{ steps.version.outputs.version }}
+          draft: false
+          prerelease: false
+
+      - name: Deploy to Vercel
+        run: vercel --token ${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}

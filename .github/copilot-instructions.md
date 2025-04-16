@@ -1,0 +1,1 @@
+- @fullcode Rule - Return Complete Solutions: Always provide complete, working code solutions that include all necessary imports, dependencies, and implementation details. The code should be ready to run without requiring additional context or modifications.
