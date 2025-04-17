@@ -23,3 +23,4 @@ This allows users to:
 ## How It Works
 
 Just input two weak passwords, and passbags will combine them into one stronger password that you can reliably regenerate anytime.
+

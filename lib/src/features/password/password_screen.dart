@@ -70,7 +70,7 @@ class _PasswordGeneratorScreenState extends State<PasswordGeneratorScreen>
             ),
             ElevatedButton(
               onPressed: generateEncryptedPassword,
-              child: const Text("Generate strong password"),
+              child: const Text("Make my password strong"),
             ),
             Divider(
               color: Colors.transparent,
