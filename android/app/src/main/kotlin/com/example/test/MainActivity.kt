@@ -1,4 +1,4 @@
-package com.example.passbag
+package rw.ini.passbag
 
 import io.flutter.embedding.android.FlutterActivity
 
