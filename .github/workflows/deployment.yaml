@@ -54,17 +54,11 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Build Android APK
+      - name: Build Android
         if: matrix.os == 'ubuntu-latest'
-        run: flutter build apk --release
-
-      # - name: Build Linux
-      #   if: matrix.os == 'ubuntu-latest'
-      #   run: |
-      #     flutter config --enable-linux-desktop
-      #     flutter build linux --release
-      #     cd build/linux/x64/release/bundle
-      #     tar -czf ../../../../../linux-release.tar.gz .
+        run: |
+          flutter build apk --release
+          flutter build appbundle --release
 
       # - name: Build Windows
       #   if: matrix.os == 'windows-latest'
@@ -102,7 +96,16 @@ jobs:
           asset_path: build/app/outputs/flutter-apk/app-release.apk
           asset_name: passbag-${{ steps.version.outputs.version }}.apk
           asset_content_type: application/vnd.android.package-archive
-
+      - name: Upload Android App Bundle
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/app/outputs/bundle/release/app-release.aab
+          asset_name: passbag-${{ steps.version.outputs.version }}.aab
+          asset_content_type: application/octet-stream
       # - name: Upload Linux Build
       #   if: matrix.os == 'ubuntu-latest'
       #   uses: actions/upload-release-asset@v1
@@ -135,9 +138,3 @@ jobs:
       #     asset_path: macos-release.zip
       #     asset_name: app-${{ steps.version.outputs.version }}-macos.zip
       #     asset_content_type: application/zip
-
-      - name: Deploy to Vercel
-        if: matrix.os == 'ubuntu-latest'
-        run: vercel --token ${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
