@@ -87,38 +87,38 @@ jobs:
           asset_name: app-${{ steps.version.outputs.version }}.apk
           asset_content_type: application/vnd.android.package-archive
 
-      - name: Upload Linux Build
-        if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: linux-release.tar.gz
-          asset_name: app-${{ steps.version.outputs.version }}-linux.tar.gz
-          asset_content_type: application/gzip
+      # - name: Upload Linux Build
+      #   if: matrix.os == 'ubuntu-latest'
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: linux-release.tar.gz
+      #     asset_name: app-${{ steps.version.outputs.version }}-linux.tar.gz
+      #     asset_content_type: application/gzip
 
-      - name: Upload Windows Build
-        if: matrix.os == 'windows-latest'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/windows/runner/Release
-          asset_name: app-${{ steps.version.outputs.version }}-windows.zip
-          asset_content_type: application/zip
+      # - name: Upload Windows Build
+      #   if: matrix.os == 'windows-latest'
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: build/windows/runner/Release
+      #     asset_name: app-${{ steps.version.outputs.version }}-windows.zip
+      #     asset_content_type: application/zip
 
-      - name: Upload macOS Build
-        if: matrix.os == 'macos-latest'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: macos-release.zip
-          asset_name: app-${{ steps.version.outputs.version }}-macos.zip
-          asset_content_type: application/zip
+      # - name: Upload macOS Build
+      #   if: matrix.os == 'macos-latest'
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: macos-release.zip
+      #     asset_name: app-${{ steps.version.outputs.version }}-macos.zip
+      #     asset_content_type: application/zip
 
       - name: Deploy to Vercel
         if: matrix.os == 'ubuntu-latest'
