@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Passbags',
+      title: 'Passbag',
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         AppLocalizations.delegate, // Add this line

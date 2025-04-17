@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:passbags/src/features/password/password_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  static Future<bool> shouldShowOnboarding() async {
-    final prefs = await SharedPreferences.getInstance();
-    return !(prefs.getBool('hasCompletedOnboarding') ?? true);
-  }
-
   @override
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
@@ -17,11 +11,21 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
+  static Future<bool> shouldShowOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    return !(prefs.getBool('hasCompletedOnboarding') ?? false);
+  }
 
-  @override
-  void _goToNextPage() {
+  Future<void> _completeOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('hasCompletedOnboarding', true);
+  }
+
+  void _goToNextPage() async {
     if (_currentPage == _pages.length - 1) {
+      await _completeOnboarding();
       // Navigate to the main app screen
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => PasswordGeneratorScreen()),
@@ -34,7 +38,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
   }
 
-  void _skipToMainApp() {
+  void _skipToMainApp() async {
+    await _completeOnboarding();
     // Navigate to the main app screen
     Navigator.pushReplacement(
       context,
@@ -44,27 +49,38 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final List<Widget> _pages = const [
     OnboardingPage(
-      title: 'Welcome to Passags',
+      title: 'Welcome to Passbags',
       description:
-          'Discover Passags – the tool that turns weak passwords into super strong ones!',
+          'Turn your simple passwords into strong ones with Passags - your password strengthening companion!',
       imagePath: 'lib/assets/images/security_1.svg',
     ),
     OnboardingPage(
-      title: 'One Mighty Secret is All You Need',
+      title: 'Combine Two Simple Passwords',
       description:
-          'Imagine having one super strong secret. It’s like a magic key that helps you create super strong passwords.',
+          'Have two easy-to-remember passwords? We\'ll help you combine them into one super strong password!',
       imagePath: 'lib/assets/images/security_2.svg',
     ),
     OnboardingPage(
-      title: 'Stronger Passwords, No Sweat',
+      title: 'Simple + Simple = Strong',
       description:
-          'Whether your password is weak or strong, we make it even stronger. Just give us your secret, and we’ll mix it up for super safety.',
+          'Keep using passwords you can remember! We\'ll help you merge them together with special tricks to make them much stronger.',
       imagePath: 'lib/assets/images/security_3.svg',
     ),
-    // Add more OnboardingPage widgets here
-
-    // Add more OnboardingPage widgets here
   ];
+  @override
+  void initState() {
+    super.initState();
+    _checkIfShouldNavigate();
+  }
+
+  void _checkIfShouldNavigate() async {
+    if (!(await shouldShowOnboarding())) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => PasswordGeneratorScreen()),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +127,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 ElevatedButton(
                   onPressed: _goToNextPage,
-                  child: Text("Next"),
+                  child: Text(_currentPage == _pages.length - 1
+                      ? "Get Started"
+                      : "Next"),
                 ),
               ],
             ),
@@ -129,7 +147,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       width: isActive ? 30 : 6,
       decoration: BoxDecoration(
         color: isActive ? Colors.blue : Colors.grey,
-        shape: BoxShape.circle,
+        borderRadius: BorderRadius.circular(isActive ? 5 : 3),
       ),
     );
   }
