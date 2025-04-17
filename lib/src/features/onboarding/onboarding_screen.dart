@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:shared_preferences.dart';
+
 import 'package:passbags/src/features/password/password_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static Future<bool> shouldShowOnboarding() async {
     final prefs = await SharedPreferences.getInstance();
-    return !prefs.getBool('hasCompletedOnboarding') ?? true;
+    return !(prefs.getBool('hasCompletedOnboarding') ?? true);
   }
 
   @override
@@ -18,6 +19,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   int _currentPage = 0;
 
   @override
+  void _goToNextPage() {
     if (_currentPage == _pages.length - 1) {
       // Navigate to the main app screen
       Navigator.pushReplacement(
