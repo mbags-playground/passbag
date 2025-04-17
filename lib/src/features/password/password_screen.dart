@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import "package:passbags/src/utils/password_generator.dart";
+import "package:passbag/src/utils/password_generator.dart";
 import "package:flutter/services.dart";
-import "package:passbags/src/widgets/styled_text_input.dart";
+import "package:passbag/src/widgets/styled_text_input.dart";
 
 class PasswordGeneratorScreen extends StatefulWidget {
   @override

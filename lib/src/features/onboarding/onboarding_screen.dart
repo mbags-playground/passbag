@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:passbags/src/features/password/password_screen.dart';
+import 'package:passbag/src/features/password/password_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -49,7 +49,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   final List<Widget> _pages = const [
     OnboardingPage(
-      title: 'Welcome to Passbags',
+      title: 'Welcome to passbag',
       description:
           'Turn your simple passwords into strong ones with Passags - your password strengthening companion!',
       imagePath: 'lib/assets/images/security_1.svg',
