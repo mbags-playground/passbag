@@ -40,7 +40,7 @@ jobs:
 
       - name: Build Web
         if: matrix.os == 'ubuntu-latest'
-        run: flutter build web --release --base-href "/passbag/"
+        run: flutter build web --release
       - name: add privacy.html to output
         if: matrix.os == 'ubuntu-latest'
         run: cp privacy.html build/web/privacy.html
@@ -57,8 +57,7 @@ jobs:
       - name: Build Android
         if: matrix.os == 'ubuntu-latest'
         run: |
-          flutter build apk --release
-          flutter build appbundle --release
+          flutter build apk --debug
 
       # - name: Build Windows
       #   if: matrix.os == 'windows-latest'
@@ -93,19 +92,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/app/outputs/flutter-apk/app-release.apk
+          asset_path: build/app/outputs/flutter-apk/app-debug.apk
           asset_name: passbag-${{ steps.version.outputs.version }}.apk
           asset_content_type: application/vnd.android.package-archive
-      - name: Upload Android App Bundle
-        if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/app/outputs/bundle/release/app-release.aab
-          asset_name: passbag-${{ steps.version.outputs.version }}.aab
-          asset_content_type: application/octet-stream
       # - name: Upload Linux Build
       #   if: matrix.os == 'ubuntu-latest'
       #   uses: actions/upload-release-asset@v1
